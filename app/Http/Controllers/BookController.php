@@ -18,8 +18,7 @@ class BookController extends Controller
         $book = Book::all()->where('id',$id);
         return response()->json(['book' => $book], 200);
     }
-
-    /**
+ /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -37,11 +36,18 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $book=new Book;
-        $book->book_title=$request->input('book_title');
-        $book->book_description=$request->input('book_description');
-        $book->book_author=$request->input('book_author');
-        $result=$book->save();
+
+        $book = Book::create([
+            'book_title' => $request->book_title,
+            'book_description' => $request->book_description,
+            'book_author' => $request->book_author,
+        ]);
+        $author = $book->author()->create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'phoneno' => $request->phoneno,
+            'id' => $request->id,
+        ]);
         return response()->json(['message' => 'Book Added Successfully'], 200);
     }
 
@@ -53,10 +59,10 @@ class BookController extends Controller
      */
     public function show(Request $request)
     {
-        $data['book']=DB::table('books')
+      /*  $data['book']=DB::table('books')
         ->join('authors', 'authors.name', '=', 'books.book_author')
         ->select('books.*', 'authors.name as book_author')
-        ->get();
+          ->get();
         if(count($data)>0)
          {
            return response()->json(['book' => $data], 200);
@@ -64,7 +70,8 @@ class BookController extends Controller
           else
           {
            return response()->json(['message' => ' ABC'], 200);
-          }
+          }*/
+
     }
 
     /**
@@ -77,8 +84,7 @@ class BookController extends Controller
     {
         //
     }
-
-    /**
+        /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

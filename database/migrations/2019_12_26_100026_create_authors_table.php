@@ -18,6 +18,7 @@ class CreateAuthorsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('phoneno');
+            $table->integer('book_id')->unsigned()->index();
             $table->timestamps();
         });
     }

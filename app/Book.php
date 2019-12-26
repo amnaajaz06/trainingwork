@@ -9,8 +9,8 @@ class Book extends Model
 {
      protected $fillable=['id','book_title','book_description','book_author','created_at','updated_at'];
     //
-    function book()
+    public function author()
     {
-    	return $this->hasOne("App\Book");
+        return $this->hasOne('App\Author');
     }
 }
